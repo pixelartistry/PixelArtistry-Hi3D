@@ -2,7 +2,7 @@
 
 Turns **one image** into a **highly detailed 3D model** at 512, 1024 or 1536 (or refines a rough mesh you already have): hair strands, rivets, wrinkles, scales. Free and local in ComfyUI, with native nodes and 6 GB weights by **[AeroX](https://github.com/Aero-Ex/Aero-Ex-ComfyUI-Hi3D)** and a one-click installer for Windows.
 
-![Coarse TRELLIS.2 mesh (left) refined by Hi3D at 1536 (right)](docs/images/hero.jpg)
+![Minotaur: TRELLIS.2 1024 (left) and the same model refined by Hi3D at 1536 (right), made on a 6 GB budget](docs/images/minotaur_hero.jpg)
 
 Workflow 01 does it all in one go: upload an image, TRELLIS.2 or Pixal3D (one switch) builds the coarse model, Hi3D adds the detail. Tested on characters (a dwarf, a minotaur) and a detailed dragon statue.
 
@@ -79,6 +79,14 @@ ComfyUI checks every model in the graph before a run, so workflow 01 needs both 
 **3. Workflows** - drag the JSONs from the `workflows` folder onto the ComfyUI canvas, or copy them into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D` (create the folders) to see them in the sidebar under **PixelArtistry > Hi3D**.
 
 **4. Restart ComfyUI.**
+
+## Results
+
+**Minotaur**, one image > TRELLIS.2 1024 > Hi3D, made on a 6 GB VRAM budget (TRELLIS.2 1:45 min, Hi3D 13:00 min). Left to right: TRELLIS.2, Hi3D 1024, Hi3D 1536. The TRELLIS.2 mesh has 182,613 holes; all three Hi3D versions have 0 open holes.
+
+![Minotaur close-ups: TRELLIS.2 vs Hi3D 1024 vs Hi3D 1536](docs/images/minotaur_closeups.jpg)
+
+More: [dwarf and dragon](docs/images/hero.jpg).
 
 ## How to use
 
