@@ -73,33 +73,6 @@ This is the tested version. Newer versions may work, but I haven't tested them.
 3. **Reference Image:** the image the mesh was made from. Any background works, BiRefNet cuts it out.
 4. Queue. The meshes land in `ComfyUI\output\hi3d\` (`refined_512`, `refined_1024`, `refined_1536`).
 
-## AeroX vs the original Hi3D pipeline
-
-Same coarse mesh (remeshed twice), same reference image, seed 42, 25 steps, both at their default settings. The original pipeline is [thatname/ComfyUI-Hi3D](https://github.com/thatname/ComfyUI-Hi3D), which runs the official Hi3D release code; AeroX rebuilt Hi3D on ComfyUI's own sampler and memory management.
-
-**Dwarf, 1536**
-
-![Dwarf at 1536: input, original Hi3D, AeroX int8, AeroX fp16](docs/images/compare_dwarf_1536.jpg)
-
-**Dragon, 1536**
-
-![Dragon at 1536: input, original Hi3D, AeroX int8](docs/images/compare_dragon_1536.jpg)
-
-1024 versions: [dwarf](docs/images/compare_dwarf_1024.jpg) · [dragon](docs/images/compare_dragon_1024.jpg)
-
-| | Original pipeline | AeroX (int8) |
-|---|---|---|
-| Detail (hair, scales, ornaments) | high | **same level** |
-| Open holes (dwarf / dragon, 1536) | 43 / 90 | **0 / 0** |
-| Edges where thin parts touch (dwarf / dragon, 1536) | **84 / 118** | 743 / 2,565 |
-| Tiny loose pieces (dwarf / dragon, 1536) | **46 / 39** | 571 / 1,939 (99.98 % of the mesh is one piece) |
-| VRAM | used ~5.3 GB (1024) / ~8.1 GB (1536) on my 16 GB card; not tested on 6 GB | **runs at 1536 with 6 GB free, verified** ([below](#6-gb-test)) |
-| Install | extra CUDA packages (spconv, flash-attn, CUDA toolkit) | **nothing extra**, native ComfyUI |
-| First run | ~4 min loading the model on the CPU | starts right away |
-| Failed runs in my tests | 3 of 14 (random, works when queued again) | 0 of 7 |
-
-My take: **the detail is the same.** AeroX's version closes every hole and runs on 6 GB without installing anything; the original leaves pinholes but fewer stray edges and loose bits. On the dwarf, the original kept the angry expression closer to the image in this run, while AeroX relaxed it. In my earlier tests the original relaxed the same face too, so the expression varies from seed to seed in both. On the dragon both are very close.
-
 ## 6 GB test
 
 I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM except **6.0 GB free** (measured with NVML, like nvidia-smi). Then I ran workflow 01 (remesh twice, 512 > 1024 > 1536) on the dwarf, in a fresh ComfyUI installed with this installer.
@@ -129,7 +102,6 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 
 - **[AeroX](https://github.com/Aero-Ex)**: the native ComfyUI Hi3D nodes ([Aero-Ex-ComfyUI-Hi3D](https://github.com/Aero-Ex/Aero-Ex-ComfyUI-Hi3D)), the int8 / fp16 weights ([Aero-Ex/ComfyUI-Hi3D](https://huggingface.co/Aero-Ex/ComfyUI-Hi3D)) and the example workflows mine are based on. Thanks for building the 6 GB version!
 - [Hi3D v1.0](https://github.com/hi3d-official/Hi3Dv1.0) (SPARC3D) by OCEANO HK HOLDING LIMITED
-- [thatname/ComfyUI-Hi3D](https://github.com/thatname/ComfyUI-Hi3D): the original-pipeline node pack used in the comparison
 - [BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet) by Comfy-Org, DINOv2 by Meta, CLIP by OpenAI
 - [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) by Tavris1 / ivo (Pixaroma Community Edition)
 
