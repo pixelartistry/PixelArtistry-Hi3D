@@ -106,9 +106,11 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 
 ## Tips
 
-- **Remesh twice (AeroX's fix).** Both workflows run *Remesh Mesh* (`solid`, fill 20, 1024) two times before Hi3D. Without it, the stair-steps and broken thin parts of a TRELLIS.2 mesh carry over: on my dwarf the ear grew a lumpy flap and the nose bulged. With it, ear and face come out clean.
+- **Remesh twice (AeroX's fix).** All three workflows run *Remesh Mesh* (`solid`, fill 20, 1024) two times before Hi3D. Without it, the stair-steps and broken thin parts of a TRELLIS.2 mesh carry over: on my dwarf the ear grew a lumpy flap and the nose bulged. With it, ear and face come out clean.
 
   ![Raw TRELLIS.2 mesh vs remeshed twice, both refined by Hi3D at 1536](docs/images/remesh_tip.jpg)
+
+  It depends on the mesh, though: on my minotaur, whose TRELLIS.2 mesh was already clean, the run without remesh kept a bit more detail in the face and a cleaner horn cap. If your model loses detail, select the two Remesh nodes, bypass them (Ctrl+B) and compare.
 - **Reference image:** the image the mesh was made from, ideally square. Hi3D follows the image for the fine detail, so a sharp image gives sharper detail.
 - **Seed:** small details (rivets, the facial expression) change from seed to seed. If a face comes out off, try another seed on the sampler.
 - **Big meshes:** the 1536 result has ~8-12 million faces (150-260 MB). For games or texturing, add a *Decimate Mesh* node (e.g. 1M faces) before saving.
