@@ -36,7 +36,7 @@ Put the unzipped folder next to `python_embeded` and run `Install-Hi3D.bat` ther
 - Asks for **int8** (4.3 GB, recommended) or **fp16** (7.7 GB) weights, or both, and shows your GPU's VRAM.
 - Scans `ComfyUI\models` **and** `extra_model_paths.yaml`, so linked model folders (e.g. from Easy-Models-Linker) count.
 - Lists the missing models and **asks** before downloading anything. Every download is checked with SHA-256.
-- Puts my 2 workflows (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry`, so they show up in the workflow sidebar in the **PixelArtistry** folder. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`.
+- Puts my 2 workflows (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, so they show up in the workflow sidebar under **PixelArtistry > Hi3D**. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`.
 - Safe to re-run: existing files are skipped, unfinished downloads resume.
 
 **Requirements:** Windows, NVIDIA GPU with 6 GB+, ComfyUI v0.42.0+ (tested on v0.45.4), ~8 GB disk with int8 (~11 GB with fp16), 16 GB RAM (ComfyUI peaked at 5.5 GB in my 6 GB test).
@@ -62,7 +62,7 @@ This is the tested version. Newer versions may work, but I haven't tested them.
 | `clip-vit-large-patch14.safetensors` | `models/clip_vision` | 1.7 GB |
 | `birefnet.safetensors` | `models/background_removal` | 0.4 GB, from [Comfy-Org/BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet/resolve/main/background_removal/birefnet.safetensors) |
 
-**3. Workflows** - drag the JSONs from the `workflows` folder onto the ComfyUI canvas, or copy them into `ComfyUI\user\default\workflows\PixelArtistry` (create the folder) to see them in the sidebar's **PixelArtistry** folder.
+**3. Workflows** - drag the JSONs from the `workflows` folder onto the ComfyUI canvas, or copy them into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D` (create the folders) to see them in the sidebar under **PixelArtistry > Hi3D**.
 
 **4. Restart ComfyUI.**
 

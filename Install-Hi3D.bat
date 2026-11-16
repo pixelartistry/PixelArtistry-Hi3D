@@ -197,10 +197,10 @@ rem ---------------------------------------------------------------- 5. workflow
 :workflows
 echo.
 echo  [5/5] Adding workflows to the ComfyUI workflow browser...
-rem Same place as the other PixelArtistry workflows: sidebar folder "PixelArtistry".
+rem Next to the other PixelArtistry workflows: sidebar folder "PixelArtistry", subfolder "Hi3D".
 rem The workflows are embedded at the end of this file (gzip + base64), so the
 rem installer also works on its own, without the "workflows" folder next to it.
-set "WF=%COMFY%\user\default\workflows\PixelArtistry"
+set "WF=%COMFY%\user\default\workflows\PixelArtistry\Hi3D"
 "%PY%" -I -c "import sys;t=open(sys.argv[1],encoding='utf-8').read();exec(t.split('#'+'WORKFLOWS'+'#\n',1)[1].split('#'+'END'+'#',1)[0])" "%~f0" "%WF%" "%TEMP%\hi3d_models.txt"
 if errorlevel 1 >>"%WARN%" echo  - Could not write the PixelArtistry workflows to %WF%.
 
@@ -217,7 +217,7 @@ echo  ============================================================
 echo.
 echo   Next steps:
 echo   1. Start ComfyUI.
-echo   2. Workflows sidebar, folder PixelArtistry:
+echo   2. Workflows sidebar, folder PixelArtistry ^> Hi3D:
 echo      "PixelArtistry_Hi3D_01_Refine_Chain_512-1024-1536"
 echo   3. Upload YOUR coarse mesh in "Load Coarse Mesh" and YOUR reference image
 echo      ^(ideally the image the mesh was made from^), then Queue.
