@@ -1,5 +1,5 @@
 {
-  "id": "b9085b9a-cb27-4bcd-9801-cf946e68ebf8",
+  "id": "b485cecc-a3fc-466b-ae8b-0654cd6bcb5e",
   "revision": 0,
   "last_node_id": 28,
   "last_link_id": 42,
@@ -1988,7 +1988,7 @@
     },
     {
       "id": 6,
-      "title": "PixelArtistry Hi3D 01 - chain 512 > 1024 > 1536",
+      "title": "PixelArtistry Hi3D 02 - your mesh, chain 512 > 1024 > 1536",
       "bounding": [
         -797.9767748114596,
         -381.04285993570477,

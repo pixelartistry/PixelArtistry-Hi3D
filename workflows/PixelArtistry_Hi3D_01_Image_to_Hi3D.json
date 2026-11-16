@@ -1,0 +1,3951 @@
+{
+  "id": "086a3a43-3393-4756-a795-070d97ed6881",
+  "revision": 0,
+  "last_node_id": 58,
+  "last_link_id": 89,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [
+        20,
+        300
+      ],
+      "size": [
+        740,
+        870
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            1,
+            4,
+            55
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "example.png",
+        "upload": "image"
+      },
+      "title": "Upload your image"
+    },
+    {
+      "id": 2,
+      "type": "LoadBackgroundRemovalModel",
+      "pos": [
+        860,
+        90
+      ],
+      "size": [
+        330,
+        80
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "bg_model",
+          "type": "BACKGROUND_REMOVAL",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "LoadBackgroundRemovalModel",
+        "models": [
+          {
+            "name": "birefnet.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/BiRefNet/resolve/main/background_removal/birefnet.safetensors",
+            "directory": "background_removal"
+          }
+        ]
+      },
+      "widgets_values": [
+        "birefnet.safetensors"
+      ],
+      "widgets_values_named": {
+        "bg_removal_name": "birefnet.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "BiRefNet"
+    },
+    {
+      "id": 3,
+      "type": "RemoveBackground",
+      "pos": [
+        860,
+        230
+      ],
+      "size": [
+        230,
+        80
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "bg_removal_model",
+          "type": "BACKGROUND_REMOVAL",
+          "link": 2
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            3,
+            56
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "RemoveBackground"
+      },
+      "title": "Remove background"
+    },
+    {
+      "id": 4,
+      "type": "MaskPreview",
+      "pos": [
+        860,
+        370
+      ],
+      "size": [
+        230,
+        270
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 3
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "MaskPreview"
+      },
+      "title": "Mask preview"
+    },
+    {
+      "id": 5,
+      "type": "ImageCropToMask",
+      "pos": [
+        860,
+        700
+      ],
+      "size": [
+        290,
+        210
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4
+        },
+        {
+          "name": "masks",
+          "type": "MASK",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ImageCropToMask"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1.1,
+        0,
+        "#000000"
+      ],
+      "widgets_values_named": {
+        "width": 1024,
+        "height": 1024,
+        "pad_factor": 1.1,
+        "grow_mask": 0,
+        "background": "#000000"
+      },
+      "title": "Crop square (TRELLIS.2 / Pixal3D)"
+    },
+    {
+      "id": 6,
+      "type": "PreviewImage",
+      "pos": [
+        860,
+        970
+      ],
+      "size": [
+        230,
+        270
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            7,
+            8,
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "PreviewImage"
+      },
+      "title": "Cut-out image"
+    },
+    {
+      "id": 7,
+      "type": "PrimitiveBoolean",
+      "pos": [
+        1290,
+        340
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            17,
+            20,
+            23
+          ]
+        }
+      ],
+      "title": "TRELLIS.2 (true) / Pixal3D (false)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "PrimitiveBoolean"
+      },
+      "widgets_values": [
+        true
+      ],
+      "widgets_values_named": {
+        "value": true
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 8,
+      "type": "UNETLoader",
+      "pos": [
+        1290,
+        470
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "UNETLoader",
+        "models": [
+          {
+            "name": "trellis_2_int8_convrot.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/TRELLIS.2/resolve/main/diffusion_models/trellis_2_int8_convrot.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "trellis_2_int8_convrot.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "trellis_2_int8_convrot.safetensors",
+        "weight_dtype": "default"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "TRELLIS.2 model"
+    },
+    {
+      "id": 9,
+      "type": "UNETLoader",
+      "pos": [
+        1290,
+        620
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "UNETLoader",
+        "models": [
+          {
+            "name": "pixal3d_int8_convrot.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Pixal3D/resolve/main/diffusion_models/pixal3d_int8_convrot.safetensors",
+            "directory": "diffusion_models"
+          }
+        ]
+      },
+      "widgets_values": [
+        "pixal3d_int8_convrot.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "pixal3d_int8_convrot.safetensors",
+        "weight_dtype": "default"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "Pixal3D model"
+    },
+    {
+      "id": 10,
+      "type": "ComfySwitchNode",
+      "pos": [
+        1290,
+        770
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "MODEL",
+          "link": 21
+        },
+        {
+          "name": "on_true",
+          "type": "MODEL",
+          "link": 22
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "switch"
+          },
+          "link": 23
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "MODEL",
+          "links": [
+            24,
+            36
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ComfySwitchNode"
+      },
+      "widgets_values": [
+        false
+      ],
+      "widgets_values_named": {
+        "switch": false
+      },
+      "title": "Model switch"
+    },
+    {
+      "id": 11,
+      "type": "VAELoader",
+      "pos": [
+        1290,
+        940
+      ],
+      "size": [
+        340,
+        70
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            32,
+            45,
+            51
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "VAELoader",
+        "models": [
+          {
+            "name": "trellis_2_shape_vae_bf16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Pixal3D/resolve/main/vae/trellis_2_shape_vae_bf16.safetensors",
+            "directory": "vae"
+          }
+        ]
+      },
+      "widgets_values": [
+        "trellis_2_shape_vae_bf16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "trellis_2_shape_vae_bf16.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "Shape VAE"
+    },
+    {
+      "id": 12,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        1670,
+        90
+      ],
+      "size": [
+        320,
+        80
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            10,
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "Node name for S&R": "CLIPVisionLoader",
+        "models": [
+          {
+            "name": "dino_v3_L_naf_fp32.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/Pixal3D/resolve/main/clip_vision/dino_v3_L_naf_fp32.safetensors",
+            "directory": "clip_vision"
+          }
+        ]
+      },
+      "widgets_values": [
+        "dino_v3_L_naf_fp32.safetensors"
+      ],
+      "widgets_values_named": {
+        "clip_name": "dino_v3_L_naf_fp32.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "DINOv3"
+    },
+    {
+      "id": 13,
+      "type": "Trellis2Conditioning",
+      "pos": [
+        1670,
+        230
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip_vision_model",
+          "type": "CLIP_VISION",
+          "link": 10
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "Trellis2Conditioning"
+      },
+      "title": "TRELLIS.2 conditioning"
+    },
+    {
+      "id": 14,
+      "type": "LoadMoGeModel",
+      "pos": [
+        1670,
+        350
+      ],
+      "size": [
+        370,
+        70
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MOGE_MODEL",
+          "type": "MOGE_MODEL",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "LoadMoGeModel",
+        "models": [
+          {
+            "name": "moge_2_vitl_normal_fp16.safetensors",
+            "url": "https://huggingface.co/Comfy-Org/MoGe/resolve/main/geometry_estimation/moge_2_vitl_normal_fp16.safetensors",
+            "directory": "geometry_estimation"
+          }
+        ]
+      },
+      "widgets_values": [
+        "moge_2_vitl_normal_fp16.safetensors"
+      ],
+      "widgets_values_named": {
+        "model_name": "moge_2_vitl_normal_fp16.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533",
+      "title": "MoGe (camera for Pixal3D)"
+    },
+    {
+      "id": 15,
+      "type": "MoGeInference",
+      "pos": [
+        1670,
+        480
+      ],
+      "size": [
+        270,
+        180
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "moge_model",
+          "type": "MOGE_MODEL",
+          "link": 12
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "moge_geometry",
+          "type": "MOGE_GEOMETRY",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "MoGeInference"
+      },
+      "widgets_values": [
+        9,
+        0,
+        4,
+        true,
+        true,
+        3
+      ],
+      "title": "MoGe inference"
+    },
+    {
+      "id": 16,
+      "type": "MoGeGeometryToFOV",
+      "pos": [
+        1670,
+        720
+      ],
+      "size": [
+        300,
+        110
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "moge_geometry",
+          "type": "MOGE_GEOMETRY",
+          "link": 13
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fov",
+          "type": "FLOAT",
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "focal_pixels",
+          "type": "FLOAT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "MoGeGeometryToFOV"
+      },
+      "widgets_values": [
+        "horizontal",
+        "degrees"
+      ],
+      "widgets_values_named": {
+        "axis": "horizontal",
+        "unit": "degrees"
+      },
+      "title": "Camera field of view"
+    },
+    {
+      "id": 17,
+      "type": "Pixal3DConditioning",
+      "pos": [
+        1670,
+        890
+      ],
+      "size": [
+        230,
+        90
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip_vision_model",
+          "type": "CLIP_VISION",
+          "link": 11
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 8
+        },
+        {
+          "name": "camera_angle_x",
+          "type": "FLOAT",
+          "widget": {
+            "name": "camera_angle_x"
+          },
+          "link": 14
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            15
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            18
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "Pixal3DConditioning"
+      },
+      "widgets_values": [
+        49.13
+      ],
+      "widgets_values_named": {
+        "camera_angle_x": 49.13
+      },
+      "title": "Pixal3D conditioning"
+    },
+    {
+      "id": 18,
+      "type": "ComfySwitchNode",
+      "pos": [
+        1670,
+        1040
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "CONDITIONING",
+          "link": 15
+        },
+        {
+          "name": "on_true",
+          "type": "CONDITIONING",
+          "link": 16
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "switch"
+          },
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "CONDITIONING",
+          "links": [
+            28,
+            33
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ComfySwitchNode"
+      },
+      "widgets_values": [
+        false
+      ],
+      "widgets_values_named": {
+        "switch": false
+      },
+      "title": "Switch positive"
+    },
+    {
+      "id": 19,
+      "type": "ComfySwitchNode",
+      "pos": [
+        1670,
+        1210
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 38,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "on_false",
+          "type": "CONDITIONING",
+          "link": 18
+        },
+        {
+          "name": "on_true",
+          "type": "CONDITIONING",
+          "link": 19
+        },
+        {
+          "name": "switch",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "switch"
+          },
+          "link": 20
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "CONDITIONING",
+          "links": [
+            29,
+            34
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ComfySwitchNode"
+      },
+      "widgets_values": [
+        false
+      ],
+      "widgets_values_named": {
+        "switch": false
+      },
+      "title": "Switch negative"
+    },
+    {
+      "id": 20,
+      "type": "CFGOverride",
+      "pos": [
+        2140,
+        450
+      ],
+      "size": [
+        260,
+        120
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            25
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "CFGOverride"
+      },
+      "widgets_values": [
+        1,
+        0.667,
+        1
+      ],
+      "widgets_values_named": {
+        "cfg": 1,
+        "start_percent": 0.667,
+        "end_percent": 1
+      },
+      "title": "CFG override"
+    },
+    {
+      "id": 21,
+      "type": "RescaleCFG",
+      "pos": [
+        2140,
+        630
+      ],
+      "size": [
+        250,
+        70
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 25
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            26
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "RescaleCFG"
+      },
+      "widgets_values": [
+        0.7
+      ],
+      "widgets_values_named": {
+        "multiplier": 0.7
+      },
+      "title": "Rescale CFG"
+    },
+    {
+      "id": 22,
+      "type": "ModelSamplingSD3",
+      "pos": [
+        2140,
+        760
+      ],
+      "size": [
+        250,
+        80
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 26
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            27
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [
+        5
+      ],
+      "widgets_values_named": {
+        "shift": 5
+      },
+      "title": "Model sampling"
+    },
+    {
+      "id": 23,
+      "type": "EmptyTrellis2LatentStructure",
+      "pos": [
+        2140,
+        310
+      ],
+      "size": [
+        240,
+        80
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            30
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.21.1",
+        "Node name for S&R": "EmptyTrellis2LatentStructure"
+      },
+      "widgets_values": [
+        1
+      ],
+      "widgets_values_named": {
+        "batch_size": 1
+      },
+      "title": "Empty structure"
+    },
+    {
+      "id": 24,
+      "type": "KSampler",
+      "pos": [
+        2140,
+        900
+      ],
+      "size": [
+        250,
+        270
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 27
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 28
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 29
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 30
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            31
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        56,
+        "fixed",
+        12,
+        7.5,
+        "euler",
+        "normal",
+        1
+      ],
+      "title": "Sampler: structure"
+    },
+    {
+      "id": 25,
+      "type": "VaeDecodeStructureTrellis2",
+      "pos": [
+        2140,
+        1230
+      ],
+      "size": [
+        260,
+        90
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 31
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 32
+        }
+      ],
+      "outputs": [
+        {
+          "name": "voxel",
+          "type": "VOXEL",
+          "links": [
+            35
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "VaeDecodeStructureTrellis2"
+      },
+      "widgets_values": [
+        "32"
+      ],
+      "widgets_values_named": {
+        "resolution": "32"
+      },
+      "title": "Decode structure"
+    },
+    {
+      "id": 26,
+      "type": "CFGOverride",
+      "pos": [
+        2510,
+        90
+      ],
+      "size": [
+        270,
+        150
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 36
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            37
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "CFGOverride"
+      },
+      "widgets_values": [
+        1,
+        0.769,
+        1
+      ],
+      "widgets_values_named": {
+        "cfg": 1,
+        "start_percent": 0.769,
+        "end_percent": 1
+      },
+      "title": "CFG override"
+    },
+    {
+      "id": 27,
+      "type": "RescaleCFG",
+      "pos": [
+        2510,
+        300
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 37
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            38,
+            46
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "RescaleCFG"
+      },
+      "widgets_values": [
+        0.5
+      ],
+      "widgets_values_named": {
+        "multiplier": 0.5
+      },
+      "title": "Rescale CFG"
+    },
+    {
+      "id": 28,
+      "type": "Trellis2ShapeStage",
+      "pos": [
+        2510,
+        430
+      ],
+      "size": [
+        270,
+        80
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 33
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 34
+        },
+        {
+          "name": "voxel",
+          "type": "VOXEL",
+          "link": 35
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            39,
+            42
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            40,
+            43
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            41
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "Trellis2ShapeStage"
+      },
+      "title": "Shape stage 512"
+    },
+    {
+      "id": 29,
+      "type": "KSampler",
+      "pos": [
+        2510,
+        570
+      ],
+      "size": [
+        310,
+        290
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 38
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 39
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 40
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 41
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            44
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "KSampler (512)"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        20,
+        7.5,
+        "euler",
+        "normal",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 20,
+        "cfg": 7.5,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "denoise": 1
+      },
+      "title": "Sampler: shape 512"
+    },
+    {
+      "id": 30,
+      "type": "Trellis2UpsampleStage",
+      "pos": [
+        2510,
+        920
+      ],
+      "size": [
+        300,
+        130
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 42
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 43
+        },
+        {
+          "name": "shape_latent",
+          "type": "LATENT",
+          "link": 44
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 45
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            47
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            48
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            49
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.33.0",
+        "Node name for S&R": "Trellis2UpsampleStage"
+      },
+      "widgets_values": [
+        "1024"
+      ],
+      "widgets_values_named": {
+        "target_resolution": "1024"
+      },
+      "title": "Upsample to 1024"
+    },
+    {
+      "id": 31,
+      "type": "KSampler",
+      "pos": [
+        2510,
+        1110
+      ],
+      "size": [
+        290,
+        290
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 46
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 47
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 48
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 49
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            50
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "KSampler (1024)"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        12,
+        7.5,
+        "euler",
+        "simple",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 12,
+        "cfg": 7.5,
+        "sampler_name": "euler",
+        "scheduler": "simple",
+        "denoise": 1
+      },
+      "title": "Sampler: shape 1024"
+    },
+    {
+      "id": 32,
+      "type": "VaeDecodeShapeTrellis",
+      "pos": [
+        2510,
+        1460
+      ],
+      "size": [
+        270,
+        80
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 50
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 51
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "links": [
+            52,
+            53
+          ]
+        },
+        {
+          "name": "shape_subdivides",
+          "type": "SHAPE_SUBDIVIDES",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.17.0",
+        "Node name for S&R": "VaeDecodeShapeTrellis"
+      },
+      "title": "Decode coarse mesh"
+    },
+    {
+      "id": 33,
+      "type": "SaveGLB",
+      "pos": [
+        2880,
+        90
+      ],
+      "size": [
+        360,
+        480
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_OBJ,FILE_3D_FBX,FILE_3D_STL,FILE_3D_USDZ,FILE_3D_PLY,FILE_3D_SPLAT,FILE_3D_SPZ,FILE_3D_KSPLAT,FILE_3D_SPLAT_ANY,FILE_3D_POINT_CLOUD_ANY,FILE_3D",
+          "link": 52
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveGLB",
+        "Last Time Model File": "hi3d/refined_512_00007_.glb",
+        "Last Time Model Folder": "output",
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "hasCustomUp": false,
+          "state": {
+            "position": {
+              "x": 0.6576463785827017,
+              "y": 3.197629889233868,
+              "z": 7.005503769943661
+            },
+            "target": {
+              "x": 0,
+              "y": 2.0580219801695385,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective",
+            "quaternion": {
+              "x": -0.08010940376412587,
+              "y": 0.046632906748230715,
+              "z": 0.003751914144266409,
+              "w": 0.9956875908521815
+            },
+            "fov": 35,
+            "aspect": 1.030674846625767,
+            "near": 0.01,
+            "far": 10000,
+            "frustum": {
+              "left": -5,
+              "right": 5,
+              "top": 5,
+              "bottom": -5
+            }
+          }
+        },
+        "Light Config": {
+          "intensity": 3,
+          "hdri": {
+            "enabled": false,
+            "hdriPath": "",
+            "showAsBackground": false,
+            "intensity": 1
+          }
+        },
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled",
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
+        },
+        "Model Config": {
+          "upDirection": "original",
+          "materialMode": "original",
+          "showSkeleton": false,
+          "gizmo": {
+            "enabled": false,
+            "mode": "translate",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        }
+      },
+      "widgets_values": [
+        "hi3d/coarse",
+        ""
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "hi3d/coarse",
+        "image": ""
+      },
+      "title": "Save coarse mesh (before Hi3D)"
+    },
+    {
+      "id": 34,
+      "type": "RemeshMesh",
+      "pos": [
+        3340,
+        320
+      ],
+      "size": [
+        322.47727966308594,
+        274
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 53
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "links": [
+            54
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RemeshMesh"
+      },
+      "widgets_values": [
+        1024,
+        "solid",
+        20,
+        false,
+        1,
+        0,
+        false,
+        0,
+        0.01,
+        20000000
+      ],
+      "widgets_values_named": {
+        "resolution": 1024,
+        "sign_mode": "solid",
+        "sign_mode.fill": 20,
+        "sign_mode.qef": false,
+        "band": 1,
+        "project_back": 0,
+        "fix_poles": false,
+        "smooth_iters": 0,
+        "drop_small_components": 0.01,
+        "precluster_max_verts": 20000000
+      },
+      "title": "Remesh 1/2 (solid, fill 20)"
+    },
+    {
+      "id": 35,
+      "type": "RemeshMesh",
+      "pos": [
+        3340,
+        654
+      ],
+      "size": [
+        322.47727966308594,
+        274
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 54
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "links": [
+            62
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RemeshMesh"
+      },
+      "widgets_values": [
+        1024,
+        "solid",
+        20,
+        false,
+        1,
+        0,
+        false,
+        0,
+        0.01,
+        20000000
+      ],
+      "widgets_values_named": {
+        "resolution": 1024,
+        "sign_mode": "solid",
+        "sign_mode.fill": 20,
+        "sign_mode.qef": false,
+        "band": 1,
+        "project_back": 0,
+        "fix_poles": false,
+        "smooth_iters": 0,
+        "drop_small_components": 0.01,
+        "precluster_max_verts": 20000000
+      },
+      "title": "Remesh 2/2 (solid, fill 20)"
+    },
+    {
+      "id": 36,
+      "type": "Hi3DCheckpointLoader",
+      "pos": [
+        3795,
+        320
+      ],
+      "size": [
+        330,
+        100
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            63,
+            73,
+            83
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            68,
+            78,
+            88
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DCheckpointLoader"
+      },
+      "widgets_values": [
+        "hi3d_v1_int8.safetensors"
+      ],
+      "widgets_values_named": {
+        "ckpt_name": "hi3d_v1_int8.safetensors"
+      },
+      "title": "Hi3D weights (int8 / fp16)"
+    },
+    {
+      "id": 37,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        3795,
+        480
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            57
+          ]
+        }
+      ],
+      "title": "DINOv2",
+      "properties": {
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "dinov2-large.safetensors"
+      ],
+      "widgets_values_named": {
+        "clip_name": "dinov2-large.safetensors"
+      }
+    },
+    {
+      "id": 38,
+      "type": "CLIPVisionLoader",
+      "pos": [
+        3795,
+        600
+      ],
+      "size": [
+        330,
+        60
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP_VISION",
+          "type": "CLIP_VISION",
+          "links": [
+            58
+          ]
+        }
+      ],
+      "title": "CLIP ViT-L/14",
+      "properties": {
+        "Node name for S&R": "CLIPVisionLoader"
+      },
+      "widgets_values": [
+        "clip-vit-large-patch14.safetensors"
+      ],
+      "widgets_values_named": {
+        "clip_name": "clip-vit-large-patch14.safetensors"
+      }
+    },
+    {
+      "id": 39,
+      "type": "ImageCropToMask",
+      "pos": [
+        3795,
+        720
+      ],
+      "size": [
+        300,
+        174
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 55
+        },
+        {
+          "name": "masks",
+          "type": "MASK",
+          "link": 56
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            59
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageCropToMask"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1.2,
+        0,
+        "#ffffff"
+      ],
+      "widgets_values_named": {
+        "width": 1024,
+        "height": 1024,
+        "pad_factor": 1.2,
+        "grow_mask": 0,
+        "background": "#ffffff"
+      },
+      "title": "Crop for Hi3D (white, 1.2)"
+    },
+    {
+      "id": 40,
+      "type": "Hi3DConditioning",
+      "pos": [
+        3795,
+        954
+      ],
+      "size": [
+        330,
+        90
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "dino_vision",
+          "type": "CLIP_VISION",
+          "link": 57
+        },
+        {
+          "name": "clip_vision",
+          "type": "CLIP_VISION",
+          "link": 58
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 59
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            60,
+            70,
+            80
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            61,
+            71,
+            81
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DConditioning"
+      },
+      "title": "Hi3D conditioning"
+    },
+    {
+      "id": 41,
+      "type": "Hi3DRefineStage",
+      "pos": [
+        4225,
+        90
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 60
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 61
+        },
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 62
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            64
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            65
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            66
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DRefineStage"
+      },
+      "widgets_values": [
+        "512"
+      ],
+      "widgets_values_named": {
+        "resolution": "512"
+      },
+      "title": "Hi3D stage 512"
+    },
+    {
+      "id": 42,
+      "type": "Hi3DSampler",
+      "pos": [
+        4225,
+        260
+      ],
+      "size": [
+        360,
+        166
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 63
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 64
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 65
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 66
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            67
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        25
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 25
+      },
+      "title": "Hi3D sampler 512"
+    },
+    {
+      "id": 43,
+      "type": "VAEDecodeHi3D",
+      "pos": [
+        4225,
+        486
+      ],
+      "size": [
+        360,
+        50
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 67
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 68
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MESH",
+          "type": "MESH",
+          "links": [
+            69,
+            72
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeHi3D"
+      },
+      "title": "Hi3D decode 512"
+    },
+    {
+      "id": 44,
+      "type": "SaveGLB",
+      "pos": [
+        4225,
+        596
+      ],
+      "size": [
+        360,
+        480
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_OBJ,FILE_3D_FBX,FILE_3D_STL,FILE_3D_USDZ,FILE_3D_PLY,FILE_3D_SPLAT,FILE_3D_SPZ,FILE_3D_KSPLAT,FILE_3D_SPLAT_ANY,FILE_3D_POINT_CLOUD_ANY,FILE_3D",
+          "link": 69
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveGLB",
+        "Last Time Model File": "hi3d/refined_512_00007_.glb",
+        "Last Time Model Folder": "output",
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "hasCustomUp": false,
+          "state": {
+            "position": {
+              "x": 0.6576463785827017,
+              "y": 3.197629889233868,
+              "z": 7.005503769943661
+            },
+            "target": {
+              "x": 0,
+              "y": 2.0580219801695385,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective",
+            "quaternion": {
+              "x": -0.08010940376412587,
+              "y": 0.046632906748230715,
+              "z": 0.003751914144266409,
+              "w": 0.9956875908521815
+            },
+            "fov": 35,
+            "aspect": 1.030674846625767,
+            "near": 0.01,
+            "far": 10000,
+            "frustum": {
+              "left": -5,
+              "right": 5,
+              "top": 5,
+              "bottom": -5
+            }
+          }
+        },
+        "Light Config": {
+          "intensity": 3,
+          "hdri": {
+            "enabled": false,
+            "hdriPath": "",
+            "showAsBackground": false,
+            "intensity": 1
+          }
+        },
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled",
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
+        },
+        "Model Config": {
+          "upDirection": "original",
+          "materialMode": "original",
+          "showSkeleton": false,
+          "gizmo": {
+            "enabled": false,
+            "mode": "translate",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        }
+      },
+      "widgets_values": [
+        "hi3d/refined_512",
+        ""
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "hi3d/refined_512",
+        "image": ""
+      },
+      "title": "Save Hi3D 512"
+    },
+    {
+      "id": 45,
+      "type": "Hi3DRefineStage",
+      "pos": [
+        4625,
+        90
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 70
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 71
+        },
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 72
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            74
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            75
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            76
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DRefineStage"
+      },
+      "widgets_values": [
+        "1024"
+      ],
+      "widgets_values_named": {
+        "resolution": "1024"
+      },
+      "title": "Hi3D stage 1024"
+    },
+    {
+      "id": 46,
+      "type": "Hi3DSampler",
+      "pos": [
+        4625,
+        260
+      ],
+      "size": [
+        360,
+        166
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 73
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 74
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 75
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 76
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            77
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        25
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 25
+      },
+      "title": "Hi3D sampler 1024"
+    },
+    {
+      "id": 47,
+      "type": "VAEDecodeHi3D",
+      "pos": [
+        4625,
+        486
+      ],
+      "size": [
+        360,
+        50
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 77
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 78
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MESH",
+          "type": "MESH",
+          "links": [
+            79,
+            82
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeHi3D"
+      },
+      "title": "Hi3D decode 1024"
+    },
+    {
+      "id": 48,
+      "type": "SaveGLB",
+      "pos": [
+        4625,
+        596
+      ],
+      "size": [
+        360,
+        480
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_OBJ,FILE_3D_FBX,FILE_3D_STL,FILE_3D_USDZ,FILE_3D_PLY,FILE_3D_SPLAT,FILE_3D_SPZ,FILE_3D_KSPLAT,FILE_3D_SPLAT_ANY,FILE_3D_POINT_CLOUD_ANY,FILE_3D",
+          "link": 79
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveGLB",
+        "Last Time Model File": "hi3d/refined_1024_00006_.glb",
+        "Last Time Model Folder": "output",
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "hasCustomUp": false,
+          "state": {
+            "position": {
+              "x": 0.03141003333313212,
+              "y": 3.276523675632288,
+              "z": 4.8493245392408255
+            },
+            "target": {
+              "x": 0,
+              "y": 2.0605625442915536,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective",
+            "quaternion": {
+              "x": -0.12252971911826988,
+              "y": 0.0032141446379941375,
+              "z": 0.00039682044011748053,
+              "w": 0.9924595607583124
+            },
+            "fov": 35,
+            "aspect": 1.030674846625767,
+            "near": 0.01,
+            "far": 10000,
+            "frustum": {
+              "left": -5,
+              "right": 5,
+              "top": 5,
+              "bottom": -5
+            }
+          }
+        },
+        "Light Config": {
+          "intensity": 3,
+          "hdri": {
+            "enabled": false,
+            "hdriPath": "",
+            "showAsBackground": false,
+            "intensity": 1
+          }
+        },
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled",
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
+        },
+        "Model Config": {
+          "upDirection": "original",
+          "materialMode": "original",
+          "showSkeleton": false,
+          "gizmo": {
+            "enabled": false,
+            "mode": "translate",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        }
+      },
+      "widgets_values": [
+        "hi3d/refined_1024",
+        ""
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "hi3d/refined_1024",
+        "image": ""
+      },
+      "title": "Save Hi3D 1024"
+    },
+    {
+      "id": 49,
+      "type": "Hi3DRefineStage",
+      "pos": [
+        5025,
+        90
+      ],
+      "size": [
+        360,
+        110
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 80
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 81
+        },
+        {
+          "name": "mesh",
+          "type": "MESH",
+          "link": 82
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            84
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            85
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            86
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DRefineStage"
+      },
+      "widgets_values": [
+        "1536"
+      ],
+      "widgets_values_named": {
+        "resolution": "1536"
+      },
+      "title": "Hi3D stage 1536"
+    },
+    {
+      "id": 50,
+      "type": "Hi3DSampler",
+      "pos": [
+        5025,
+        260
+      ],
+      "size": [
+        360,
+        166
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 83
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 84
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 85
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "link": 86
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            87
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Hi3DSampler"
+      },
+      "widgets_values": [
+        42,
+        "fixed",
+        25
+      ],
+      "widgets_values_named": {
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 25
+      },
+      "title": "Hi3D sampler 1536"
+    },
+    {
+      "id": 51,
+      "type": "VAEDecodeHi3D",
+      "pos": [
+        5025,
+        486
+      ],
+      "size": [
+        360,
+        50
+      ],
+      "flags": {},
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 87
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 88
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MESH",
+          "type": "MESH",
+          "links": [
+            89
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeHi3D"
+      },
+      "title": "Hi3D decode 1536"
+    },
+    {
+      "id": 52,
+      "type": "SaveGLB",
+      "pos": [
+        5025,
+        596
+      ],
+      "size": [
+        360,
+        480
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "mesh",
+          "type": "MESH,FILE_3D_GLB,FILE_3D_GLTF,FILE_3D_OBJ,FILE_3D_FBX,FILE_3D_STL,FILE_3D_USDZ,FILE_3D_PLY,FILE_3D_SPLAT,FILE_3D_SPZ,FILE_3D_KSPLAT,FILE_3D_SPLAT_ANY,FILE_3D_POINT_CLOUD_ANY,FILE_3D",
+          "link": 89
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveGLB",
+        "Last Time Model File": "hi3d/refined_1536_00006_.glb",
+        "Last Time Model Folder": "output",
+        "Camera Config": {
+          "cameraType": "perspective",
+          "fov": 35,
+          "hasCustomUp": false,
+          "state": {
+            "position": {
+              "x": -1.5115122675069532,
+              "y": 4.142446049909685,
+              "z": 5.075160201564702
+            },
+            "target": {
+              "x": 0,
+              "y": 2.0621838854939556,
+              "z": 0
+            },
+            "zoom": 1,
+            "cameraType": "perspective",
+            "quaternion": {
+              "x": -0.18412268536090795,
+              "y": -0.14170695948291145,
+              "z": -0.02683577567666011,
+              "w": 0.9722642724657883
+            },
+            "fov": 35,
+            "aspect": 1.030674846625767,
+            "near": 0.01,
+            "far": 10000,
+            "frustum": {
+              "left": -5,
+              "right": 5,
+              "top": 5,
+              "bottom": -5
+            }
+          }
+        },
+        "Light Config": {
+          "intensity": 3,
+          "hdri": {
+            "enabled": false,
+            "hdriPath": "",
+            "showAsBackground": false,
+            "intensity": 1
+          }
+        },
+        "Scene Config": {
+          "showGrid": true,
+          "backgroundColor": "#282828",
+          "backgroundImage": "",
+          "backgroundRenderMode": "tiled",
+          "models": [
+            {
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "quaternion": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              }
+            }
+          ]
+        },
+        "Model Config": {
+          "upDirection": "original",
+          "materialMode": "original",
+          "showSkeleton": false,
+          "gizmo": {
+            "enabled": false,
+            "mode": "translate",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        }
+      },
+      "widgets_values": [
+        "hi3d/refined_1536",
+        ""
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "hi3d/refined_1536",
+        "image": ""
+      },
+      "title": "Save Hi3D 1536"
+    },
+    {
+      "id": 53,
+      "type": "MarkdownNote",
+      "pos": [
+        20,
+        90
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 1 · Your image\nUpload one image of a single object or character. **Square works best** (1:1), any background: BiRefNet cuts it out."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 54,
+      "type": "MarkdownNote",
+      "pos": [
+        1290,
+        90
+      ],
+      "size": [
+        330,
+        190
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 3 · Pick the model\n**true = TRELLIS.2** (default), **false = Pixal3D**.\n\nTRELLIS.2 is the all-rounder; Pixal3D follows the camera of the image more closely."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 55,
+      "type": "MarkdownNote",
+      "pos": [
+        2140,
+        90
+      ],
+      "size": [
+        330,
+        160
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 4 · Coarse 3D model\nTRELLIS.2 / Pixal3D build the shape at 1024. The coarse mesh is saved to `output/hi3d/coarse` for a before/after."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 56,
+      "type": "MarkdownNote",
+      "pos": [
+        3340,
+        90
+      ],
+      "size": [
+        330,
+        170
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 5 · Remesh twice\nAeroX's fix: cleans stair-steps and broken thin parts (ears) before Hi3D. Without it, they carry into the detailed mesh."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 57,
+      "type": "MarkdownNote",
+      "pos": [
+        3795,
+        90
+      ],
+      "size": [
+        330,
+        170
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 6 · Hi3D\n6-8 GB: **int8**. 12 GB+: fp16 also works.\n\nNodes and weights by AeroX (github.com/Aero-Ex)."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 58,
+      "type": "MarkdownNote",
+      "pos": [
+        5025,
+        1136
+      ],
+      "size": [
+        330,
+        150
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Note",
+      "properties": {},
+      "widgets_values": [
+        "## 7 · Results\n`output/hi3d/refined_512`, `_1024`, `_1536`.\n1536 has 8-17M faces: decimate it for games."
+      ],
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      3,
+      1,
+      "IMAGE"
+    ],
+    [
+      2,
+      2,
+      0,
+      3,
+      0,
+      "BACKGROUND_REMOVAL"
+    ],
+    [
+      3,
+      3,
+      0,
+      4,
+      0,
+      "MASK"
+    ],
+    [
+      4,
+      1,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      5,
+      4,
+      0,
+      5,
+      1,
+      "MASK"
+    ],
+    [
+      6,
+      5,
+      0,
+      6,
+      0,
+      "IMAGE"
+    ],
+    [
+      7,
+      6,
+      0,
+      13,
+      1,
+      "IMAGE"
+    ],
+    [
+      8,
+      6,
+      0,
+      17,
+      1,
+      "IMAGE"
+    ],
+    [
+      9,
+      6,
+      0,
+      15,
+      1,
+      "IMAGE"
+    ],
+    [
+      10,
+      12,
+      0,
+      13,
+      0,
+      "CLIP_VISION"
+    ],
+    [
+      11,
+      12,
+      0,
+      17,
+      0,
+      "CLIP_VISION"
+    ],
+    [
+      12,
+      14,
+      0,
+      15,
+      0,
+      "MOGE_MODEL"
+    ],
+    [
+      13,
+      15,
+      0,
+      16,
+      0,
+      "MOGE_GEOMETRY"
+    ],
+    [
+      14,
+      16,
+      0,
+      17,
+      2,
+      "FLOAT"
+    ],
+    [
+      15,
+      17,
+      0,
+      18,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      16,
+      13,
+      0,
+      18,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      17,
+      7,
+      0,
+      18,
+      2,
+      "BOOLEAN"
+    ],
+    [
+      18,
+      17,
+      1,
+      19,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      19,
+      13,
+      1,
+      19,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      20,
+      7,
+      0,
+      19,
+      2,
+      "BOOLEAN"
+    ],
+    [
+      21,
+      9,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      22,
+      8,
+      0,
+      10,
+      1,
+      "MODEL"
+    ],
+    [
+      23,
+      7,
+      0,
+      10,
+      2,
+      "BOOLEAN"
+    ],
+    [
+      24,
+      10,
+      0,
+      20,
+      0,
+      "MODEL"
+    ],
+    [
+      25,
+      20,
+      0,
+      21,
+      0,
+      "MODEL"
+    ],
+    [
+      26,
+      21,
+      0,
+      22,
+      0,
+      "MODEL"
+    ],
+    [
+      27,
+      22,
+      0,
+      24,
+      0,
+      "MODEL"
+    ],
+    [
+      28,
+      18,
+      0,
+      24,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      29,
+      19,
+      0,
+      24,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      30,
+      23,
+      0,
+      24,
+      3,
+      "LATENT"
+    ],
+    [
+      31,
+      24,
+      0,
+      25,
+      0,
+      "LATENT"
+    ],
+    [
+      32,
+      11,
+      0,
+      25,
+      1,
+      "VAE"
+    ],
+    [
+      33,
+      18,
+      0,
+      28,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      34,
+      19,
+      0,
+      28,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      35,
+      25,
+      0,
+      28,
+      2,
+      "VOXEL"
+    ],
+    [
+      36,
+      10,
+      0,
+      26,
+      0,
+      "MODEL"
+    ],
+    [
+      37,
+      26,
+      0,
+      27,
+      0,
+      "MODEL"
+    ],
+    [
+      38,
+      27,
+      0,
+      29,
+      0,
+      "MODEL"
+    ],
+    [
+      39,
+      28,
+      0,
+      29,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      40,
+      28,
+      1,
+      29,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      41,
+      28,
+      2,
+      29,
+      3,
+      "LATENT"
+    ],
+    [
+      42,
+      28,
+      0,
+      30,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      43,
+      28,
+      1,
+      30,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      44,
+      29,
+      0,
+      30,
+      2,
+      "LATENT"
+    ],
+    [
+      45,
+      11,
+      0,
+      30,
+      3,
+      "VAE"
+    ],
+    [
+      46,
+      27,
+      0,
+      31,
+      0,
+      "MODEL"
+    ],
+    [
+      47,
+      30,
+      0,
+      31,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      48,
+      30,
+      1,
+      31,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      49,
+      30,
+      2,
+      31,
+      3,
+      "LATENT"
+    ],
+    [
+      50,
+      31,
+      0,
+      32,
+      0,
+      "LATENT"
+    ],
+    [
+      51,
+      11,
+      0,
+      32,
+      1,
+      "VAE"
+    ],
+    [
+      52,
+      32,
+      0,
+      33,
+      0,
+      "MESH"
+    ],
+    [
+      53,
+      32,
+      0,
+      34,
+      0,
+      "MESH"
+    ],
+    [
+      54,
+      34,
+      0,
+      35,
+      0,
+      "MESH"
+    ],
+    [
+      55,
+      1,
+      0,
+      39,
+      0,
+      "IMAGE"
+    ],
+    [
+      56,
+      3,
+      0,
+      39,
+      1,
+      "MASK"
+    ],
+    [
+      57,
+      37,
+      0,
+      40,
+      0,
+      "CLIP_VISION"
+    ],
+    [
+      58,
+      38,
+      0,
+      40,
+      1,
+      "CLIP_VISION"
+    ],
+    [
+      59,
+      39,
+      0,
+      40,
+      2,
+      "IMAGE"
+    ],
+    [
+      60,
+      40,
+      0,
+      41,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      61,
+      40,
+      1,
+      41,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      62,
+      35,
+      0,
+      41,
+      2,
+      "MESH"
+    ],
+    [
+      63,
+      36,
+      0,
+      42,
+      0,
+      "MODEL"
+    ],
+    [
+      64,
+      41,
+      0,
+      42,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      65,
+      41,
+      1,
+      42,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      66,
+      41,
+      2,
+      42,
+      3,
+      "LATENT"
+    ],
+    [
+      67,
+      42,
+      0,
+      43,
+      0,
+      "LATENT"
+    ],
+    [
+      68,
+      36,
+      1,
+      43,
+      1,
+      "VAE"
+    ],
+    [
+      69,
+      43,
+      0,
+      44,
+      0,
+      "MESH"
+    ],
+    [
+      70,
+      40,
+      0,
+      45,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      71,
+      40,
+      1,
+      45,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      72,
+      43,
+      0,
+      45,
+      2,
+      "MESH"
+    ],
+    [
+      73,
+      36,
+      0,
+      46,
+      0,
+      "MODEL"
+    ],
+    [
+      74,
+      45,
+      0,
+      46,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      75,
+      45,
+      1,
+      46,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      76,
+      45,
+      2,
+      46,
+      3,
+      "LATENT"
+    ],
+    [
+      77,
+      46,
+      0,
+      47,
+      0,
+      "LATENT"
+    ],
+    [
+      78,
+      36,
+      1,
+      47,
+      1,
+      "VAE"
+    ],
+    [
+      79,
+      47,
+      0,
+      48,
+      0,
+      "MESH"
+    ],
+    [
+      80,
+      40,
+      0,
+      49,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      81,
+      40,
+      1,
+      49,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      82,
+      47,
+      0,
+      49,
+      2,
+      "MESH"
+    ],
+    [
+      83,
+      36,
+      0,
+      50,
+      0,
+      "MODEL"
+    ],
+    [
+      84,
+      49,
+      0,
+      50,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      85,
+      49,
+      1,
+      50,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      86,
+      49,
+      2,
+      50,
+      3,
+      "LATENT"
+    ],
+    [
+      87,
+      50,
+      0,
+      51,
+      0,
+      "LATENT"
+    ],
+    [
+      88,
+      36,
+      1,
+      51,
+      1,
+      "VAE"
+    ],
+    [
+      89,
+      51,
+      0,
+      52,
+      0,
+      "MESH"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "1 · Upload your image",
+      "bounding": [
+        0,
+        0,
+        780,
+        1210
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "2 · Cut out and crop",
+      "bounding": [
+        840,
+        0,
+        370,
+        1280
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "3 · Pick the model: TRELLIS.2 or Pixal3D",
+      "bounding": [
+        1270,
+        0,
+        790,
+        1360
+      ],
+      "color": "#b06634",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "4 · Coarse 3D model (1024)",
+      "bounding": [
+        2120,
+        0,
+        1140,
+        1580
+      ],
+      "color": "#b06634",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "5 · Clean: remesh twice",
+      "bounding": [
+        3320,
+        0,
+        395,
+        968
+      ],
+      "color": "#8a8",
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "6 · Hi3D setup",
+      "bounding": [
+        3775,
+        0,
+        370,
+        1084
+      ],
+      "color": "#a1309b",
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "7 · Hi3D 512 > 1024 > 1536",
+      "bounding": [
+        4205,
+        0,
+        1200,
+        1326
+      ],
+      "color": "#a1309b",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.45,
+      "offset": [
+        60,
+        180
+      ]
+    }
+  },
+  "version": 0.4
+}

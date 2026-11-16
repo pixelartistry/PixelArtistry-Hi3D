@@ -1,5 +1,5 @@
 {
-  "id": "2c9f8f82-4170-4429-84e4-4fed02d6a06b",
+  "id": "bd760c5b-fc63-43f7-b249-ed38f5abd238",
   "revision": 0,
   "last_node_id": 22,
   "last_link_id": 23,
@@ -1227,7 +1227,7 @@
     },
     {
       "id": 4,
-      "title": "PixelArtistry Hi3D 02 - single pass",
+      "title": "PixelArtistry Hi3D 03 - your mesh, single pass",
       "bounding": [
         -836.2465657848335,
         -389.2642991770754,
