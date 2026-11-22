@@ -23,7 +23,7 @@ All four clean the coarse mesh first with **two Remesh passes** (AeroX's tip, se
 
 1. Install [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) if you don't have it yet. My **[installation guide](https://go.pixel-artistry.com/Trellis2InstallationGuide)** walks you through every step.
 2. On this page: **Code → Download ZIP**.
-3. Unzip it into `ComfyUI-Easy-Install\Add-Ons\`. You get `Add-Ons\PixelArtistry-Hi3D-main\` with `Install-Hi3D.bat` inside. (Workflows 01 to 03 are built into the installer, so the `.bat` on its own directly in `Add-Ons` works too.)
+3. Unzip it into `ComfyUI-Easy-Install\Add-Ons\`. You get `Add-Ons\PixelArtistry-Hi3D-main\` with `Install-Hi3D.bat` inside. (The workflows are built into the installer, so the `.bat` on its own directly in `Add-Ons` works too.)
 4. Close ComfyUI.
 5. Double-click `Install-Hi3D.bat`.
 
@@ -36,13 +36,14 @@ Put the unzipped folder next to `python_embeded` and run `Install-Hi3D.bat` ther
 - Checks your ComfyUI version. Hi3D needs **ComfyUI v0.42.0 or newer**; on an older one it stops and tells you how to update.
 - Installs [AeroX's Hi3D nodes](https://github.com/Aero-Ex/Aero-Ex-ComfyUI-Hi3D) at the tested, pinned version `227d18f`. No extra Python packages: the nodes only use ComfyUI itself, so your Python environment stays untouched.
 - Asks for **int8** (4.3 GB, recommended) or **fp16** (7.7 GB) weights, or both, and shows your GPU's VRAM.
-- Asks whether to install the **image-to-3D models** for workflow 01: TRELLIS.2, Pixal3D, their shape VAE, DINOv3 and MoGe (about 13.8 GB). Already installed from my other packs? They're found and skipped.
+- Asks whether to install the **image-to-3D models** for workflows 01 and 04: TRELLIS.2, Pixal3D, their shape VAE, DINOv3 and MoGe (about 13.8 GB). Already installed from my other packs? They're found and skipped.
 - Scans `ComfyUI\models` **and** `extra_model_paths.yaml`, so linked model folders (e.g. from Easy-Models-Linker) count.
 - Lists the missing models and **asks** before downloading anything. Every download is checked with SHA-256.
-- Puts workflows 01 to 03 (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, so they show up in the workflow sidebar under **PixelArtistry > Hi3D**. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`. Workflow 04 needs more nodes and is added by hand, see [Workflow 04](#workflow-04-image-to-a-textured-game-character).
+- Puts my 4 workflows (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, so they show up in the workflow sidebar under **PixelArtistry > Hi3D**. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`.
+- Checks the extra nodes of **workflow 04**. It needs nodes from my Animated-Characters pack, which this installer doesn't install. The workflow is added either way, and the installer lists the missing nodes at the end, see [Workflow 04](#workflow-04-image-to-a-textured-game-character).
 - Safe to re-run: existing files are skipped, unfinished downloads resume.
 
-**Requirements:** Windows, NVIDIA GPU with 6 GB+, ComfyUI v0.42.0+ (tested on v0.45.4), ~8 GB disk with int8 (~11 GB with fp16), plus ~14 GB for the image-to-3D models of workflow 01, 16 GB RAM (ComfyUI peaked at 5.5 GB in my 6 GB test).
+**Requirements:** Windows, NVIDIA GPU with 6 GB+, ComfyUI v0.42.0+ (tested on v0.45.4), ~8 GB disk with int8 (~11 GB with fp16), plus ~14 GB for the image-to-3D models of workflows 01 and 04, 16 GB RAM (ComfyUI peaked at 5.5 GB in my 6 GB test).
 
 ### c) Manual install
 
@@ -65,7 +66,7 @@ This is the tested version. Newer versions may work, but I haven't tested them.
 | `clip-vit-large-patch14.safetensors` | `models/clip_vision` | 1.7 GB |
 | `birefnet.safetensors` | `models/background_removal` | 0.4 GB, from [Comfy-Org/BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet/resolve/main/background_removal/birefnet.safetensors) |
 
-For workflow 01 (image to 3D), also:
+For workflows 01 and 04 (image to 3D), also:
 
 | File | Folder | Size |
 |---|---|---|
@@ -75,7 +76,7 @@ For workflow 01 (image to 3D), also:
 | `dino_v3_L_naf_fp32.safetensors` | `models/clip_vision` | 1.2 GB, [Comfy-Org/Pixal3D](https://huggingface.co/Comfy-Org/Pixal3D/resolve/main/clip_vision/dino_v3_L_naf_fp32.safetensors) |
 | `moge_2_vitl_normal_fp16.safetensors` | `models/geometry_estimation` | 0.7 GB, [Comfy-Org/MoGe](https://huggingface.co/Comfy-Org/MoGe/resolve/main/geometry_estimation/moge_2_vitl_normal_fp16.safetensors) |
 
-ComfyUI checks every model in the graph before a run, so workflow 01 needs both TRELLIS.2 and Pixal3D even if you only use one.
+ComfyUI checks every model in the graph before a run, so workflows 01 and 04 need both TRELLIS.2 and Pixal3D even if you only use one.
 
 **3. Workflows** - drag the JSONs from the `workflows` folder onto the ComfyUI canvas, or copy them into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D` (create the folders) to see them in the sidebar under **PixelArtistry > Hi3D**.
 
@@ -102,12 +103,13 @@ Already have a mesh? Use **workflow 02**: load your mesh in *Load Coarse Mesh* a
 
 The full pipeline from the video, in one run: image > TRELLIS.2 (1024) > Hi3D 512 > 1024 > a 12,000-triangle low-poly > normal map baked from the Hi3D mesh > UltraTex colour and metal/roughness > one GLB.
 
-It needs more nodes and models than `Install-Hi3D.bat` brings, so the installer doesn't add it:
+`Install-Hi3D.bat` puts it into the sidebar with the other three. It also needs nodes and models that this installer doesn't bring; if they are missing, the installer lists them at the end.
 
 1. Run `Install-Hi3D.bat` from this page.
 2. Install my **[Animated-Characters pack](https://github.com/pixelartistry/PixelArtistry-Animated-Characters)**. Its installer brings MostAadTech's LODTailor, Bake Forger, Fast Merge, Memory Cleaner and UltraTex nodes, ComfyUI-GGUF and the UltraTex models, and it finds Blender. The TRELLIS.2 and Pixal3D models can come from either installer.
-3. Copy `workflows\PixelArtistry_Hi3D_04_Image_to_LowPoly_TRELLIS2_Hi3D_UltraTex.json` into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, or drag it onto the canvas.
-4. Load your image, set the **Blender path** node once (forward slashes, e.g. `D:/Blender/blender.exe`), then Run.
+3. Open **PixelArtistry_Hi3D_04_Image_to_LowPoly_TRELLIS2_Hi3D_UltraTex**, load your image, set the **Blender path** node once (forward slashes, e.g. `D:/Blender/blender.exe`), then Run.
+
+If the Animated-Characters workflows were already installed when you ran `Install-Hi3D.bat`, the Blender path is copied from them. A path you set in workflow 04 yourself is kept when you run the installer again.
 
 The results land in `ComfyUI\output\3d\`: `PixelArtistry_hi3d_final` (the textured game character), `PixelArtistry_hi3d_lowpoly` (before UltraTex) and `PixelArtistry_hi3d_detail_1024` (the Hi3D mesh).
 
