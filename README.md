@@ -4,7 +4,7 @@ Turns **one image** into a **highly detailed 3D model** at 512, 1024 or 1536 (or
 
 ![Minotaur: TRELLIS.2 1024 (left) and the same model refined by Hi3D at 1536 (right), made on a 6 GB budget](docs/images/minotaur_hero.jpg)
 
-Workflow 01 does it all in one go: upload an image, TRELLIS.2 or Pixal3D (one switch) builds the coarse model, Hi3D adds the detail. Tested on characters (a dwarf, a minotaur) and a detailed dragon statue.
+Workflow 01 does it all in one go: upload an image, TRELLIS.2 or Pixal3D (one switch) builds the coarse model, Hi3D adds the detail. Tested on characters (a dwarf, a minotaur) and a detailed dragon statue. Workflow 04 goes on to a textured low-poly game character.
 
 ## Which workflow?
 
@@ -13,8 +13,9 @@ Workflow 01 does it all in one go: upload an image, TRELLIS.2 or Pixal3D (one sw
 | **01 Image to Hi3D** | upload an image > TRELLIS.2 or Pixal3D (switch) > Hi3D 512 > 1024 > 1536; saves the coarse mesh and all three. **Start here.** | 11-14 min (character, first run incl. model loading) |
 | **02 Your Mesh, Refine Chain** | your own coarse mesh + its image > Hi3D 512 > 1024 > 1536 | 4-6 min (character), ~15 min (detailed statue) |
 | **03 Your Mesh, Single Pass** | one pass at the resolution you pick (512 / 1024 / 1536) | 1024: ~1.5 min |
+| **04 Image to Low-Poly Game Character** | upload an image > TRELLIS.2 1024 > Hi3D 512 > 1024 > 12k low-poly with a baked normal map > UltraTex textures. Needs a second pack, see [Workflow 04](#workflow-04-image-to-a-textured-game-character). | ~18 min (character) |
 
-All three clean the coarse mesh first with **two Remesh passes** (AeroX's tip, see [Tips](#tips)).
+All four clean the coarse mesh first with **two Remesh passes** (AeroX's tip, see [Tips](#tips)).
 
 ## Install
 
@@ -22,7 +23,7 @@ All three clean the coarse mesh first with **two Remesh passes** (AeroX's tip, s
 
 1. Install [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) if you don't have it yet. My **[installation guide](https://go.pixel-artistry.com/Trellis2InstallationGuide)** walks you through every step.
 2. On this page: **Code → Download ZIP**.
-3. Unzip it into `ComfyUI-Easy-Install\Add-Ons\`. You get `Add-Ons\PixelArtistry-Hi3D-main\` with `Install-Hi3D.bat` inside. (The workflows are built into the installer, so the `.bat` on its own directly in `Add-Ons` works too.)
+3. Unzip it into `ComfyUI-Easy-Install\Add-Ons\`. You get `Add-Ons\PixelArtistry-Hi3D-main\` with `Install-Hi3D.bat` inside. (Workflows 01 to 03 are built into the installer, so the `.bat` on its own directly in `Add-Ons` works too.)
 4. Close ComfyUI.
 5. Double-click `Install-Hi3D.bat`.
 
@@ -38,7 +39,7 @@ Put the unzipped folder next to `python_embeded` and run `Install-Hi3D.bat` ther
 - Asks whether to install the **image-to-3D models** for workflow 01: TRELLIS.2, Pixal3D, their shape VAE, DINOv3 and MoGe (about 13.8 GB). Already installed from my other packs? They're found and skipped.
 - Scans `ComfyUI\models` **and** `extra_model_paths.yaml`, so linked model folders (e.g. from Easy-Models-Linker) count.
 - Lists the missing models and **asks** before downloading anything. Every download is checked with SHA-256.
-- Puts my 3 workflows (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, so they show up in the workflow sidebar under **PixelArtistry > Hi3D**. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`.
+- Puts workflows 01 to 03 (built into the installer) into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, so they show up in the workflow sidebar under **PixelArtistry > Hi3D**. If you only have the fp16 weights, the workflows are switched to them. On a re-run, a workflow that differs from the current one is replaced, and your old file is kept next to it as `.bak`. Workflow 04 needs more nodes and is added by hand, see [Workflow 04](#workflow-04-image-to-a-textured-game-character).
 - Safe to re-run: existing files are skipped, unfinished downloads resume.
 
 **Requirements:** Windows, NVIDIA GPU with 6 GB+, ComfyUI v0.42.0+ (tested on v0.45.4), ~8 GB disk with int8 (~11 GB with fp16), plus ~14 GB for the image-to-3D models of workflow 01, 16 GB RAM (ComfyUI peaked at 5.5 GB in my 6 GB test).
@@ -97,6 +98,25 @@ More: [dwarf and dragon](docs/images/hero.jpg).
 
 Already have a mesh? Use **workflow 02**: load your mesh in *Load Coarse Mesh* and the image it was made from in *Reference Image*.
 
+## Workflow 04: image to a textured game character
+
+The full pipeline from the video, in one run: image > TRELLIS.2 (1024) > Hi3D 512 > 1024 > a 12,000-triangle low-poly > normal map baked from the Hi3D mesh > UltraTex colour and metal/roughness > one GLB.
+
+It needs more nodes and models than `Install-Hi3D.bat` brings, so the installer doesn't add it:
+
+1. Run `Install-Hi3D.bat` from this page.
+2. Install my **[Animated-Characters pack](https://github.com/pixelartistry/PixelArtistry-Animated-Characters)**. Its installer brings MostAadTech's LODTailor, Bake Forger, Fast Merge, Memory Cleaner and UltraTex nodes, ComfyUI-GGUF and the UltraTex models, and it finds Blender. The TRELLIS.2 and Pixal3D models can come from either installer.
+3. Copy `workflows\PixelArtistry_Hi3D_04_Image_to_LowPoly_TRELLIS2_Hi3D_UltraTex.json` into `ComfyUI\user\default\workflows\PixelArtistry\Hi3D`, or drag it onto the canvas.
+4. Load your image, set the **Blender path** node once (forward slashes, e.g. `D:/Blender/blender.exe`), then Run.
+
+The results land in `ComfyUI\output\3d\`: `PixelArtistry_hi3d_final` (the textured game character), `PixelArtistry_hi3d_lowpoly` (before UltraTex) and `PixelArtistry_hi3d_detail_1024` (the Hi3D mesh).
+
+- **Measured on my RTX 5080 (16 GB), minotaur:** about 18 min for the whole run, final model 11,943 triangles. Whole-card VRAM peaked at 13.1 GB in the Hi3D step and 16.0 GB in the UltraTex step.
+- **Close your browser and other heavy apps first.** My 48 GB of system RAM was full during the UltraTex step, with other apps using about 26 GB of it.
+- **Not tested on a 6 GB budget.** The 6 GB test below covers TRELLIS.2 and Hi3D, not the low-poly and UltraTex steps.
+- **No 1536 pass and no watertight step:** a 2K normal map can't hold more detail than the 1024 mesh, and LODTailor rebuilds the low-poly anyway. The low-poly had no visible holes in my test but is not strictly closed (87 open edges); for 3D printing, run a watertight step on the saved Hi3D mesh.
+- **License:** UltraTex runs on FLUX.2 Klein base 9B, which is licensed for non-commercial use. See [License](#license).
+
 ## 6 GB test
 
 I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM except **6.0 GB free** (measured with NVML, like nvidia-smi). Then I ran the Hi3D chain (workflow 02: remesh twice, 512 > 1024 > 1536) on the dwarf, in a fresh ComfyUI installed with this installer.
@@ -130,6 +150,7 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 - **[AeroX](https://github.com/Aero-Ex)**: the native ComfyUI Hi3D nodes ([Aero-Ex-ComfyUI-Hi3D](https://github.com/Aero-Ex/Aero-Ex-ComfyUI-Hi3D)), the int8 / fp16 weights ([Aero-Ex/ComfyUI-Hi3D](https://huggingface.co/Aero-Ex/ComfyUI-Hi3D)) and the example workflows mine are based on. Thanks for building the 6 GB version!
 - [Hi3D v1.0](https://github.com/hi3d-official/Hi3Dv1.0) (SPARC3D) by OCEANO HK HOLDING LIMITED
 - TRELLIS.2 by Microsoft, Pixal3D by Tsinghua University and Tencent ARC, MoGe by Microsoft, DINOv2 and DINOv3 by Meta, CLIP by OpenAI, [BiRefNet](https://huggingface.co/Comfy-Org/BiRefNet); the ComfyUI versions of these models by Comfy-Org
+- **[MostAadTech](https://github.com/Mstafa-awad)**: LODTailor, Bake Forger, Fast Merge, Memory Cleaner and the low-VRAM UltraTex nodes used by workflow 04. [UltraTex](https://yiboz2001.github.io/UltraTex/) (SIGGRAPH Asia 2026), FLUX.2 Klein by Black Forest Labs, [ComfyUI-GGUF](https://github.com/city96/ComfyUI-GGUF) by city96
 - [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) by Tavris1 / ivo (Pixaroma Community Edition)
 
 **PixelArtistry:**
@@ -145,5 +166,6 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 > - **AeroX's nodes, the Hi3D weights and the Hi3D model** are under the **Hi3D Open License Agreement v1.0** (OCEANO HK HOLDING LIMITED), including its Acceptable Use Policy. The full text is in the `LICENSE` file of AeroX's node folder.
 > - **Commercial use is allowed.** Your meshes are yours: the licensor claims no ownership of outputs, and you can sell, edit and share them without any notice.
 > - **Only products or services that build Hi3D itself in** must show "Powered by Hi3D 1.0", and need a separate license above 200,000 monthly users or USD 1M monthly revenue.
-> - **TRELLIS.2, Pixal3D, MoGe, DINOv3** and the other models used by workflow 01 keep their own licenses (DINOv3: DINOv3 License by Meta).
+> - **TRELLIS.2, Pixal3D, MoGe, DINOv3** and the other models used by workflows 01 and 04 keep their own licenses (DINOv3: DINOv3 License by Meta).
+> - **Workflow 04 is different:** its UltraTex step runs on **FLUX.2 Klein base 9B**, which is under the **FLUX Non-Commercial License v2.1** by Black Forest Labs. The "commercial use is allowed" line above is about Hi3D only. Details in the [Animated-Characters license notes](https://github.com/pixelartistry/PixelArtistry-Animated-Characters#license).
 > - This is not legal advice.
