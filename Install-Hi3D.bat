@@ -146,6 +146,14 @@ if not exist "%NODE_DIR%\nodes_hi3d.py" (
 :nodes_done
 echo        OK - %NODE_DIR%
 echo        No extra Python packages needed: the nodes only use ComfyUI itself.
+echo        Installing extra Workflow 04 node packs if missing...
+call :install_node_pack "LODTailor-Bake-Forger" "https://github.com/Mstafa-awad/LODTailor-Bake-Forger" "LODTailor Bake Forger"
+call :install_node_pack "LODTailor-The-Mesh-Trimmer-ComfyuiNode" "https://github.com/Mstafa-awad/LODTailor-The-Mesh-Trimmer-ComfyuiNode" "LODTailor The Mesh Trimmer"
+call :install_node_pack "WTiVo-FastMergeByDistance" "https://github.com/Mstafa-awad/WTiVo-FastMergeByDistance" "WTiVo Fast Merge By Distance"
+echo        Installing Python requirements for extra node packs...
+call :install_node_requirements "LODTailor-Bake-Forger" "LODTailor Bake Forger"
+call :install_node_requirements "LODTailor-The-Mesh-Trimmer-ComfyuiNode" "LODTailor The Mesh Trimmer"
+call :install_node_requirements "WTiVo-FastMergeByDistance" "WTiVo Fast Merge By Distance"
 
 rem ---------------------------------------------------------------- 4. models
 echo.
@@ -272,6 +280,68 @@ exit /b 1
 rem ==========================================================================
 rem  Subroutines
 rem ==========================================================================
+
+:install_node_pack
+rem %1 = folder name, %2 = repo url, %3 = display name
+if exist "%CN%\%~1" (
+    echo        %~3 already installed.
+    exit /b 0
+)
+echo        Installing %~3...
+where git >nul 2>&1
+if not errorlevel 1 (
+    git clone --quiet "%~2" "%CN%\%~1"
+    if not errorlevel 1 (
+        echo        OK - custom_nodes\%~1
+        exit /b 0
+    )
+    echo        git clone failed - trying zip download...
+)
+curl -L --fail -s -o "%TEMP%\hi3d_node_pack.zip" "%~2/archive/refs/heads/main.zip"
+if errorlevel 1 (
+    echo        WARNING - could not install %~3.
+    >>"%WARN%" echo  - Could not install %~3: %~2
+    exit /b 1
+)
+if exist "%TEMP%\hi3d_node_pack" rmdir /s /q "%TEMP%\hi3d_node_pack"
+mkdir "%TEMP%\hi3d_node_pack"
+tar -xf "%TEMP%\hi3d_node_pack.zip" -C "%TEMP%\hi3d_node_pack"
+set "ZIPDIR="
+for /f "delims=" %%D in ('dir /b /ad "%TEMP%\hi3d_node_pack" 2^>nul') do if not defined ZIPDIR set "ZIPDIR=%%D"
+if not defined ZIPDIR (
+    echo        WARNING - could not unpack %~3.
+    >>"%WARN%" echo  - Could not unpack %~3 zip from %~2
+    exit /b 1
+)
+move "%TEMP%\hi3d_node_pack\%ZIPDIR%" "%CN%\%~1" >nul
+if not exist "%CN%\%~1" (
+    echo        WARNING - could not install %~3.
+    >>"%WARN%" echo  - Could not install %~3 after download: %~2
+    exit /b 1
+)
+echo        OK - custom_nodes\%~1
+exit /b 0
+
+:install_node_requirements
+rem %1 = folder name in custom_nodes, %2 = display name
+set "REQ=%CN%\%~1\requirements.txt"
+if not exist "%REQ%" (
+    echo        %~2: no requirements.txt ^(skipped^).
+    exit /b 0
+)
+echo        %~2: installing requirements...
+"%PY%" -m pip --version >nul 2>&1
+if errorlevel 1 (
+    "%PY%" -m ensurepip --default-pip >nul 2>&1
+)
+"%PY%" -m pip --disable-pip-version-check install -r "%REQ%"
+if errorlevel 1 (
+    echo        WARNING - could not install Python deps for %~2.
+    >>"%WARN%" echo  - Could not install Python deps for %~2 from %REQ%.
+    exit /b 1
+)
+echo        %~2: requirements installed.
+exit /b 0
 
 :download
 rem %1 = url, %2 = target file, %3 = expected sha256, %4 = label
