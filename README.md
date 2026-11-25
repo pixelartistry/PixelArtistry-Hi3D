@@ -147,6 +147,15 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 - **Not watertight:** the results have **0 open holes**, but a few hundred edges where thin parts touch and some tiny loose bits. For 3D printing, run a watertight step afterwards, e.g. my [Image-to-3D-Print](https://github.com/pixelartistry/PixelArtistry-Image-to-3D-Print) or [Watertight-Meshes](https://github.com/pixelartistry/PixelArtistry-Watertight-Meshes) workflows.
 - **int8 or fp16?** Same quality in my tests. int8 is the smaller download and the 6 GB choice; on a 16 GB card fp16 was a bit faster.
 
+## Troubleshooting
+
+| You see | Fix |
+|---|---|
+| Workflow 04: red nodes, 12 unknown `UTX…` nodes ("Unknown pack"), or `invalid prompt: Node 'ID #353' has no class_type` | MostAadTech's low-VRAM UltraTex nodes are not installed. Close ComfyUI, run the [Animated-Characters installer](https://github.com/pixelartistry/PixelArtistry-Animated-Characters), start ComfyUI again. ComfyUI Manager can't install this pack, and the standard UltraTex install is not enough: it brings visualbruno's nodes, workflow 04 uses MostAadTech's. |
+| Workflow 04: the `UTX…` nodes are there, but a node reports a value that is "not in list" | Your UltraTex nodes are probably a different version. Workflow 04 is tested with the version the Animated-Characters installer pins (`4dea3ff`); run that installer to switch to it. If `custom_nodes\comfyui_ultratex_modular` was installed without git, delete that folder first. |
+| Workflow 04: other red nodes (LODTailor, Bake Forger, Fast Merge, Memory Cleaner, GGUF loaders) | Same fix: the Animated-Characters installer brings all of them. `Install-Hi3D.bat` lists what is missing at the end of its run. |
+| LODTailor / Bake Forger: `WinError 2` | The Blender path is wrong or uses single backslashes. Set the **Blender path** node with forward slashes, e.g. `D:/Blender/blender.exe`. |
+
 ## Credits & links
 
 - **[AeroX](https://github.com/Aero-Ex)**: the native ComfyUI Hi3D nodes ([Aero-Ex-ComfyUI-Hi3D](https://github.com/Aero-Ex/Aero-Ex-ComfyUI-Hi3D)), the int8 / fp16 weights ([Aero-Ex/ComfyUI-Hi3D](https://huggingface.co/Aero-Ex/ComfyUI-Hi3D)) and the example workflows mine are based on. Thanks for building the 6 GB version!
