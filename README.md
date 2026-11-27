@@ -21,7 +21,7 @@ All four clean the coarse mesh first with **two Remesh passes** (AeroX's tip, se
 
 ### a) Recommended: ComfyUI-Easy-Install
 
-1. Install [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) if you don't have it yet. My **[installation guide](https://go.pixel-artistry.com/Trellis2InstallationGuide)** walks you through every step.
+1. Install [ComfyUI-Easy-Install](https://github.com/Tavris1/ComfyUI-Easy-Install) if you don't have it yet. My **[installation guide](https://pixel-artistry.com/Trellis2InstallationGuide)** walks you through every step.
 2. On this page: **Code → Download ZIP**.
 3. Unzip it into `ComfyUI-Easy-Install\Add-Ons\`. You get `Add-Ons\PixelArtistry-Hi3D-main\` with `Install-Hi3D.bat` inside. (The workflows are built into the installer, so the `.bat` on its own directly in `Add-Ons` works too.)
 4. Close ComfyUI.
@@ -167,8 +167,8 @@ I made my RTX 5080 behave like a 6 GB card: a second process held all VRAM excep
 **PixelArtistry:**
 
 - YouTube: [youtube.com/@PixelArtistry_](https://www.youtube.com/@PixelArtistry_)
-- FutureFrames newsletter: [go.pixel-artistry.com/newsletter](https://go.pixel-artistry.com/newsletter)
-- Workflow Pack waitlist: [go.pixel-artistry.com/Trellis2WorkflowPackWaitlist](https://go.pixel-artistry.com/Trellis2WorkflowPackWaitlist)
+- FutureFrames newsletter: [pixel-artistry.com/newsletter](https://pixel-artistry.com/newsletter)
+- Workflow Pack waitlist: [pixel-artistry.com/Trellis2WorkflowPackWaitlist](https://pixel-artistry.com/Trellis2WorkflowPackWaitlist)
 
 ## License
 
